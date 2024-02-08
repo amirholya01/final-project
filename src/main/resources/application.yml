@@ -1,1 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/final-project
+    username: postgres
+    password: amir1124
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 200MB
+      file-size-threshold: 2KB
+      max-request-size: 215MB
+file:
+  upload:
+    dir: /uploads
 
