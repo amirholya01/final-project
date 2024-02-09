@@ -1,11 +1,15 @@
 package com.amir.finalproject.service;
 
 import com.amir.finalproject.exception.FileStorageException;
+import com.amir.finalproject.exception.VideoNotFoundException;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -36,8 +40,23 @@ public class FileStorageService {
 
             return fileName;
         } catch (IOException ex) {
-            // TODO: 2/6/24 throw new exp local
             throw new FileStorageException("could not store file " + fileName + ". Pls try again!", ex);
+        }
+    }
+
+
+    //Load file from uploads folder
+    public Resource loadFileAsResource(String fileName){
+        try {
+            Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
+            Resource resource = new UrlResource(filePath.toUri());
+            if(resource.exists()){
+                return resource;
+            }else {
+                throw  new VideoNotFoundException("Video was not found, Video name is "+ fileName);
+            }
+        }catch (MalformedURLException ex){ //this exception depends on URL
+            throw  new VideoNotFoundException("Video was not found, Video name is "+ fileName);
         }
     }
 }
