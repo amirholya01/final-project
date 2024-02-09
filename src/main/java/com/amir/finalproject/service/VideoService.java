@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 public class VideoService {
 
@@ -15,12 +17,16 @@ public class VideoService {
     @Autowired
     private VideoRepository videoRepository;
 
+    //upload a video
     public Video uploadVideo(MultipartFile file, String title) {
         //get name of file
-        String fileName = StringUtils.cleanPath(file.getOriginalFilename());
+        String fileName = fileStorageService.storeFile(file);
 
-        Video video = new Video(title, file.getSize(), title);
+        Video video = new Video(title, file.getSize(), fileName);
         videoRepository.save(video);
         return video;
     }
+
+
+
 }
