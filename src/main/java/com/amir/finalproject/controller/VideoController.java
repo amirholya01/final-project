@@ -2,6 +2,8 @@ package com.amir.finalproject.controller;
 
 import com.amir.finalproject.model.Video;
 import com.amir.finalproject.service.VideoService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -14,10 +16,12 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("video")
+
 public class VideoController {
 
     @Autowired
     private VideoService videoService;
+
 
     @PostMapping
     public Video uploadVideo(@RequestParam("file") MultipartFile file, String title){
